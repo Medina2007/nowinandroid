@@ -1,0 +1,144 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'GlobalPay',
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.system,
+      home: LoginScreen(),
+    );
+  }
+}
+
+class LoginScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: ElevatedButton(
+          child: Text('Login'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DashboardScreen()),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class DashboardScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Dashboard')),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Balance: \$1,000', style: Theme.of(context).textTheme.headline6),
+          SizedBox(height: 20),
+          ElevatedButton(
+            child: Text('Send Money'),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SendMoneyScreen()),
+              );
+            },
+          ),
+          ElevatedButton(
+            child: Text('Pay Bills'),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PayBillScreen()),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SendMoneyScreen extends StatelessWidget {
+  final TextEditingController amountController = TextEditingController();
+  final TextEditingController recipientController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Send Money')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: recipientController,
+              decoration: InputDecoration(labelText: 'Recipient'),
+            ),
+            TextField(
+              controller: amountController,
+              decoration: InputDecoration(labelText: 'Amount'),
+              keyboardType: TextInputType.number,
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              child: Text('Send'),
+              onPressed: () {
+                // Currency conversion logic would go here
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Money sent!')),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PayBillScreen extends StatelessWidget {
+  final TextEditingController billerController = TextEditingController();
+  final TextEditingController amountController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Pay Bills')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: billerController,
+              decoration: InputDecoration(labelText: 'Biller Name'),
+            ),
+            TextField(
+              controller: amountController,
+              decoration: InputDecoration(labelText: 'Amount'),
+              keyboardType: TextInputType.number,
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              child: Text('Pay'),
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Bill paid!')),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
